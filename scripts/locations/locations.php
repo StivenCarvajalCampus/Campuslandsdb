@@ -1,15 +1,15 @@
 <?php
-class subjects extends connect{
-    private $queryGetAll = 'SELECT * FROM subjects';
-    private $queryPost = 'INSERT INTO subjects(id, name_subject) VALUES(:id, :name)';
-    private $queryUpdate = 'UPDATE subjects SET name_subject=:name WHERE id=:id';
-    private $queryDelete = 'DELETE FROM subjects WHERE id = :id';
+class locations extends connect{
+    private $queryGetAll = 'SELECT * FROM locations';
+    private $queryPost = 'INSERT INTO locations (id, name_location) VALUES(:id, :name)';
+    private $queryUpdate = 'UPDATE locations SET name_location=:name WHERE id=:id';
+    private $queryDelete = 'DELETE FROM locations WHERE id = :id';
     private $message;
     use getInstance;
-    function __construct(private $id, public $name_subject){
+    function __construct(private $id, public $name_location){
         parent::__construct();
     }
-    public function getAllSubjects(){
+    public function getAllLocations(){
         try {
             $stmt = $this->conex->prepare($this->queryGetAll);
             $stmt->execute();
@@ -20,11 +20,11 @@ class subjects extends connect{
                 print_r($this->message);
             }
         }
-        public function postSubjects(){
+        public function postLocation(){
             try {
                 $stmt=$this->conex->prepare($this->queryPost);
                 $stmt->bindValue("id", $this->id);
-                $stmt->bindValue("name", $this->name_subject);
+                $stmt->bindValue("name", $this->name_location);
                 $stmt->execute();
                 $this->message = ["Code"=>200+$stmt->rowCount(),"Message"=>"insert data"];
 
@@ -37,12 +37,12 @@ class subjects extends connect{
         
             }
         }
-        public function updateSubjects(){
+        public function updateLocation(){
             try {
                  
             $stmt= $this->conex->prepare($this->queryUpdate);
             
-            $stmt->bindValue("name", $this->name_subject);
+            $stmt->bindValue("name", $this->name_location);
             $stmt->bindValue("id", $this->id);
             $stmt= $stmt->execute();
             $this->message = ["Code"=>200, "Message"=>"update data"];
@@ -52,11 +52,11 @@ class subjects extends connect{
                     print_r($this->message);
                 }
             }
-            public function deleteSubjects(){
+            public function deleteLocation(){
                 try {
                     $stmt = $this->conex->prepare($this->queryDelete);
                     $stmt->bindValue('id',$this->id);
-                    $stmt->execute(); $this->message = ["Code"=> 200, "Message"=> $stmt->fetchAll(PDO::FETCH_ASSOC)];
+                    $stmt->execute(); $this->message = ["Code"=> 200, "Message"=> "delete data "];
         
                 } catch (\PDOException $e) {
                     $this->message = ["Code"=>$e->getCode(),"Message"=>$stmt->errorInfo()[2]];

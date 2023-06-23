@@ -1,15 +1,15 @@
 <?php
-class subjects extends connect{
-    private $queryGetAll = 'SELECT * FROM subjects';
-    private $queryPost = 'INSERT INTO subjects(id, name_subject) VALUES(:id, :name)';
-    private $queryUpdate = 'UPDATE subjects SET name_subject=:name WHERE id=:id';
-    private $queryDelete = 'DELETE FROM subjects WHERE id = :id';
+class personal_ref extends connect{
+    private $queryGetAll = 'SELECT * FROM personal_ref';
+    private $queryPost = 'INSERT INTO personal_ref (id, full_name, cel_number,relationship,occupation) VALUES(:id, :name, :telefono, :relationship, :ocupation)';
+    private $queryUpdate = 'UPDATE personal_ref SET full_name=:name, cel_number=:telefono, relationship=:relationship, occupation=:ocupation WHERE id=:id';
+    private $queryDelete = 'DELETE FROM personal_ref WHERE id = :id';
     private $message;
     use getInstance;
-    function __construct(private $id, public $name_subject){
+    function __construct(private $id, public $full_name, public $cel_number, public $relationship, public $occupation){
         parent::__construct();
     }
-    public function getAllSubjects(){
+    public function getAllpersonalreference(){
         try {
             $stmt = $this->conex->prepare($this->queryGetAll);
             $stmt->execute();
@@ -20,11 +20,14 @@ class subjects extends connect{
                 print_r($this->message);
             }
         }
-        public function postSubjects(){
+        public function postPersonalreference(){
             try {
                 $stmt=$this->conex->prepare($this->queryPost);
                 $stmt->bindValue("id", $this->id);
-                $stmt->bindValue("name", $this->name_subject);
+                $stmt->bindValue("name", $this->full_name);
+                $stmt->bindValue("telefono", $this->cel_number);
+                $stmt->bindValue("relationship", $this->relationship);
+                $stmt->bindValue("ocupation",$this->occupation);
                 $stmt->execute();
                 $this->message = ["Code"=>200+$stmt->rowCount(),"Message"=>"insert data"];
 
@@ -37,13 +40,16 @@ class subjects extends connect{
         
             }
         }
-        public function updateSubjects(){
+        public function updatePersonalreference(){
             try {
                  
             $stmt= $this->conex->prepare($this->queryUpdate);
             
-            $stmt->bindValue("name", $this->name_subject);
             $stmt->bindValue("id", $this->id);
+            $stmt->bindValue("name", $this->full_name);
+            $stmt->bindValue("telefono", $this->cel_number);
+            $stmt->bindValue("relationship", $this->relationship);
+            $stmt->bindValue("ocupation",$this->occupation);
             $stmt= $stmt->execute();
             $this->message = ["Code"=>200, "Message"=>"update data"];
             }catch(\PDOException $e) {
@@ -52,11 +58,11 @@ class subjects extends connect{
                     print_r($this->message);
                 }
             }
-            public function deleteSubjects(){
+            public function deletePersonalreference(){
                 try {
                     $stmt = $this->conex->prepare($this->queryDelete);
                     $stmt->bindValue('id',$this->id);
-                    $stmt->execute(); $this->message = ["Code"=> 200, "Message"=> $stmt->fetchAll(PDO::FETCH_ASSOC)];
+                    $stmt->execute(); $this->message = ["Code"=> 200, "Message"=> "delete data "];
         
                 } catch (\PDOException $e) {
                     $this->message = ["Code"=>$e->getCode(),"Message"=>$stmt->errorInfo()[2]];
@@ -65,6 +71,7 @@ class subjects extends connect{
                 }
 
             }
+
         }
     
 

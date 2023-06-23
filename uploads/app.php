@@ -17,6 +17,10 @@
         // Directorios donde buscar archivos de clases
         $directories = [
             dirname(__DIR__).'/scripts/subjects/',
+            dirname(__DIR__).'/scripts/locations/',
+            dirname(__DIR__).'/scripts/work_reference/',
+            dirname(__DIR__).'/scripts/personal_ref/',
+            dirname(__DIR__).'/scripts/working_info/',
             dirname(__DIR__).'/scripts/db/'
         ];
         // Convertir el nombre de la clase en un nombre de archivo relativo
@@ -33,7 +37,7 @@
         }
     }
     spl_autoload_register('autoload');
-     subjects::getInstance(json_decode(file_get_contents("php://input"), true))->updateSubjects();
+    working_info::getInstance(json_decode(file_get_contents("php://input"), true))->deleteworkinginfo();
     //$obj = new connect();
 
 
