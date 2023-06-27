@@ -1,16 +1,16 @@
 <?php
 namespace App;
-class locations extends connect{
-    private $queryGetAll = 'SELECT * FROM locations';
-    private $queryPost = 'INSERT INTO locations (id, name_location) VALUES(:id, :name)';
-    private $queryUpdate = 'UPDATE locations SET name_location=:name WHERE id=:id';
-    private $queryDelete = 'DELETE FROM locations WHERE id = :id';
+class themes extends connect{
+    private $queryGetAll = 'SELECT themes.*,chapters.name_chapter FROM themes INNER JOIN chapters ON themes.id_chapter = chapters.id ';
+    private $queryPost = 'INSERT INTO themes (id, id_chapter, name_theme,start_date,end_date,description, duration_days) VALUES(:id, :chapter, :theme, :startdate, :enddate, :description, :durationdays)';
+    private $queryUpdate = 'UPDATE themes  SET id_chapter=:chapter, name_theme=:theme, start_date=:startdate, end_date=:enddate,description=:description,duration_days=:durationdays, WHERE id=:id';
+    private $queryDelete = 'DELETE FROM themes WHERE id = :id';
     private $message;
     use getInstance;
-    function __construct(private $id, public $name_location){
+    function __construct(private $id, public $id_chapter, public $name_theme, public $start_date, public $end_date, public $description, public $duration_days){
         parent::__construct();
     }
-    public function getAllLocations(){
+    public function getAllThemes(){
         try {
             $stmt = $this->conex->prepare($this->queryGetAll);
             $stmt->execute();
@@ -21,11 +21,16 @@ class locations extends connect{
                 print_r($this->message);
             }
         }
-        public function postLocation(){
+        public function postThemes(){
             try {
                 $stmt=$this->conex->prepare($this->queryPost);
                 $stmt->bindValue("id", $this->id);
-                $stmt->bindValue("name", $this->name_location);
+                $stmt->bindValue("chapter", $this->id_chapter);
+                $stmt->bindValue("theme", $this->name_theme);
+                $stmt->bindValue("startdate", $this->start_date);
+                $stmt->bindValue("enddate",$this->end_date);
+                $stmt->bindValue("description",$this->description);
+                $stmt->bindValue("durationdays",$this->duration_days);
                 $stmt->execute();
                 $this->message = ["Code"=>200+$stmt->rowCount(),"Message"=>"insert data"];
 
@@ -38,13 +43,16 @@ class locations extends connect{
         
             }
         }
-        public function updateLocation(){
+        public function updateThemes(){
             try {
-                 
-            $stmt= $this->conex->prepare($this->queryUpdate);
-            
-            $stmt->bindValue("name", $this->name_location);
-            $stmt->bindValue("id", $this->id);
+                $stmt=$this->conex->prepare($this->queryUpdate);
+                $stmt->bindValue("id", $this->id);
+                $stmt->bindValue("chapter", $this->id_chapter);
+                $stmt->bindValue("theme", $this->name_theme);
+                $stmt->bindValue("startdate", $this->start_date);
+                $stmt->bindValue("enddate",$this->end_date);
+                $stmt->bindValue("description",$this->description);
+                $stmt->bindValue("durationdays",$this->duration_days);;
             $stmt= $stmt->execute();
             $this->message = ["Code"=>200, "Message"=>"update data"];
             }catch(\PDOException $e) {
@@ -53,7 +61,7 @@ class locations extends connect{
                     print_r($this->message);
                 }
             }
-            public function deleteLocation(){
+            public function deleteThemes(){
                 try {
                     $stmt = $this->conex->prepare($this->queryDelete);
                     $stmt->bindValue('id',$this->id);
@@ -66,6 +74,7 @@ class locations extends connect{
                 }
 
             }
+
         }
     
 

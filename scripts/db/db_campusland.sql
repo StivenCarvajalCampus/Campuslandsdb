@@ -1,1 +1,1 @@
-USE campusland;
+USE campuslands;

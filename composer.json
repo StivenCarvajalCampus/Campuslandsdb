@@ -1,0 +1,42 @@
+{
+    "name": "usuario1/campuslands",
+    "description": "...",
+    "license": "LTS",
+    "autoload": {
+        "psr-4": {
+            "App\\":[
+            "./scripts",
+            "./scripts/subjects/",
+            "./scripts/locations",
+            "./scripts/work_reference/",
+            "./scripts/personal_ref/",
+            "./scripts/working_info/",
+            "./scripts/regions/",
+            "./scripts/countries/",
+            "./scripts/cities/",
+            "./scripts/levels/",
+            "./scripts/areas/",
+            "./scripts/team_educators/",
+            "./scripts/journey/",
+            "./scripts/staff/",
+            "./scripts/emergency_contact/",
+            "./scripts/position/",
+            "./scripts/routes/",
+            "./scripts/chapters/",
+            "./scripts/themes/",
+            "./scripts/modules/",
+            "./scripts/thematic_units/",
+            "./scripts/db/"
+        ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Cittis",
+            "email": "aplicacion@cittis.com.co"
+        }
+    ],
+    "require": {
+        "bramus/router": "~1.6"
+    }
+}

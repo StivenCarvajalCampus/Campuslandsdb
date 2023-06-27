@@ -1,4 +1,5 @@
 <?php
+namespace App;
 class personal_ref extends connect{
     private $queryGetAll = 'SELECT * FROM personal_ref';
     private $queryPost = 'INSERT INTO personal_ref (id, full_name, cel_number,relationship,occupation) VALUES(:id, :name, :telefono, :relationship, :ocupation)';
@@ -13,7 +14,7 @@ class personal_ref extends connect{
         try {
             $stmt = $this->conex->prepare($this->queryGetAll);
             $stmt->execute();
-            $this->message = ["Code"=>200, "Message"=>$stmt->fetchAll(PDO::FETCH_ASSOC)];
+            $this->message = ["Code"=>200, "Message"=>$stmt->fetchAll(\PDO::FETCH_ASSOC)];
         }catch(\PDOException $e) {
                 $this->message = ["Code"=> $e->getCode(), "Message"=> $stmt->errorInfo()[2]];
             }finally{

@@ -1,4 +1,5 @@
 <?php
+namespace App;
 class working_info extends connect{
     private $queryGetAll = 'SELECT working_info.*,staff.first_name,staff.first_surname,work_reference.full_name,personal_ref.full_name FROM working_info INNER JOIN staff ON working_info.id_staff = staff.id INNER JOIN work_reference ON working_info.id_work_reference = work_reference.id INNER JOIN personal_ref ON working_info.id_personal_ref = personal_ref.id';
     private $queryPost = 'INSERT INTO working_info (id, id_staff, years_exp,months_exp,id_work_reference,id_personal_ref, start_contract, end_contract) VALUES(:id, :staff, :experiencia, :mesexp, :workref, :personalref, :start_contract, :end_contract)';
@@ -13,7 +14,7 @@ class working_info extends connect{
         try {
             $stmt = $this->conex->prepare($this->queryGetAll);
             $stmt->execute();
-            $this->message = ["Code"=>200, "Message"=>$stmt->fetchAll(PDO::FETCH_ASSOC)];
+            $this->message = ["Code"=>200, "Message"=>$stmt->fetchAll(\PDO::FETCH_ASSOC)];
         }catch(\PDOException $e) {
                 $this->message = ["Code"=> $e->getCode(), "Message"=> $stmt->errorInfo()[2]];
             }finally{

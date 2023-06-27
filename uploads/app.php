@@ -1,43 +1,82 @@
 <?php
-    trait getInstance{
-        public static $instance;
-        public static function getInstance() {
-            $arg = func_get_args();
-            $arg = array_pop($arg);
-            return (!(self::$instance instanceof self) || !empty($arg)) ? self::$instance = new static(...(array) $arg) : self::$instance;
-        }
-        function __set($name, $value){
-            $this->$name = $value;
-        }
-       // function __get($name){
-         //   return $this->$name;
-        }
+namespace App;
+    require_once "../vendor/autoload.php";
     
-    function autoload($class) {
-        // Directorios donde buscar archivos de clases
-        $directories = [
-            dirname(__DIR__).'/scripts/subjects/',
-            dirname(__DIR__).'/scripts/locations/',
-            dirname(__DIR__).'/scripts/work_reference/',
-            dirname(__DIR__).'/scripts/personal_ref/',
-            dirname(__DIR__).'/scripts/working_info/',
-            dirname(__DIR__).'/scripts/db/'
-        ];
-        // Convertir el nombre de la clase en un nombre de archivo relativo
-        $classFile = str_replace('\\', '/', $class) . '.php';
+    $router = new \Bramus\Router\Router();
+    $router->post("/campus/alllocation",function(){
+        \App\locations::getInstance(json_decode(file_get_contents("php://input"), true))->getAllLocations();;
+    });
+    $router->get("/campus/personal_ref",function(){
+        \App\personal_ref::getInstance(json_decode(file_get_contents("php://input"), true))->getAllpersonalreference();;
+    });
+    $router->get("/campus/subjects",function(){
+        \App\subjects::getInstance(json_decode(file_get_contents("php://input"), true))->getAllSubjects();;
+    });
+    $router->get("/campus/workreference",function(){
+        \App\work_reference::getInstance(json_decode(file_get_contents("php://input"), true))->getAllworkreference();;
+    });
+    $router->get("/campus/workinginfo",function(){
+        \App\working_info::getInstance(json_decode(file_get_contents("php://input"), true))->getAllworkinginfo();;
+    });
+    $router->get("/campus/regions",function(){
+        \App\regions::getInstance(json_decode(file_get_contents("php://input"), true))->getAllregions();;
+    });
+    $router->get("/campus/countries",function(){
+        \App\countries::getInstance(json_decode(file_get_contents("php://input"), true))->getAllCountries();;
+    });
+    $router->get("/campus/cities",function(){
+        \App\cities::getInstance(json_decode(file_get_contents("php://input"), true))->getAllCities();;
+    });
     
-        // Recorrer los directorios y buscar el archivo de la clase
-        foreach ($directories as $directory) {
-            $file = $directory.$classFile;
-            // Verificar si el archivo existe y cargarlo
-            if (file_exists($file)) {
-                require $file;
-                break;
-            }
-        }
-    }
-    spl_autoload_register('autoload');
-    working_info::getInstance(json_decode(file_get_contents("php://input"), true))->deleteworkinginfo();
+    $router->get("/campus/levels",function(){
+        \App\levels::getInstance(json_decode(file_get_contents("php://input"), true))->getAllLevels();;
+    });
+    
+    $router->get("/campus/areas",function(){
+        \App\areas::getInstance(json_decode(file_get_contents("php://input"), true))->getAllAreas();;
+    });
+    $router->get("/campus/teameducators",function(){
+        \App\team_educators::getInstance(json_decode(file_get_contents("php://input"), true))->getAllTeameducators();;
+    });
+    $router->get("/campus/journey",function(){
+        \App\journey::getInstance(json_decode(file_get_contents("php://input"), true))->getAllJourney();;
+    });
+    $router->get("/campus/staff",function(){
+        \App\staff::getInstance(json_decode(file_get_contents("php://input"), true))->getAllStaff();;
+    });
+    $router->get("/campus/emergency_contact",function(){
+        \App\emergency_contact::getInstance(json_decode(file_get_contents("php://input"), true))->getAllEmergencycontact();;
+    });
+    $router->get("/campus/position",function(){
+        \App\position::getInstance(json_decode(file_get_contents("php://input"), true))->getAllPosition();;
+    });
+    
+    $router->get("/campus/routes",function(){
+        \App\routes::getInstance(json_decode(file_get_contents("php://input"), true))->getAllRoutes();;
+    });
+    $router->get("/campus/thematic_units",function(){
+        \App\thematic_units::getInstance(json_decode(file_get_contents("php://input"), true))->getAllThematic_units();;
+    });
+    $router->get("/campus/chapters",function(){
+        \App\chapters::getInstance(json_decode(file_get_contents("php://input"), true))->getAllChapters();;
+    });
+    $router->get("/campus/themes",function(){
+        \App\themes::getInstance(json_decode(file_get_contents("php://input"), true))->getAllThemes();;
+    });
+    $router->get("/campus/modules",function(){
+        \App\modules::getInstance(json_decode(file_get_contents("php://input"), true))->getAllModules();;
+    });
+
+
+
+  
+
+
+
+
+    $router->run();
+    //
+
     //$obj = new connect();
 
 
